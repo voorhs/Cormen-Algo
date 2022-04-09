@@ -3,53 +3,41 @@
 
 template <class T>
 class Vector {
-    int size, alloc;
+    unsigned size, alloc;
     T*  content;
 public:
-    Vector() { size = 0; alloc = 0; }
-
-    ~Vector() {
-        if (alloc > 0)
-            delete[] content;
+    Vector() {
+        size = 0; alloc = 1;
+        content = new T[alloc];
     }
 
-    Vector(int s, T value = T(0)) {
+    ~Vector() {
+        delete[] content;
+    }
+
+    Vector(unsigned s, T value = T(0)) {
         assert(s > 0);
 
         size = s;
         alloc = s;
         content = new T[size];
         
-        for (int i = 0; i < size; i++)
+        for (unsigned i = 0; i < size; i++)
             content[i] = value;
     }
 
-    void print(const char* s = 0) {
+    void print(const char* s = 0) const {
         if (s != 0)
             std::cout << s << ": ";
         
-        for (int i = 0; i < size; i++)
+        for (unsigned i = 0; i < size; i++)
             std::cout << content[i] << ' ';
         std::cout << std::endl; 
     }
 
     void push_back(T value) {
-        if (++size > alloc)
-        {
-            if (alloc == 0)
-                alloc = 1;
-            else
-                alloc *= 2;
-            
-            T* tmp = new T[alloc];
-            for (int i = 0; i < size - 1; i++)
-                tmp[i] = content[i];
-            for (int i = size - 1; i < alloc; i++)
-                tmp[i] = T(0);
-            
-            if (alloc > 1)
-                delete[] content;
-            content = tmp;
+        if (++size > alloc) {
+            resize(size - 1);
         }
 
         content[size - 1] = value;
@@ -62,30 +50,26 @@ public:
         return content[idx];
     }
 
-    void remove(int idx) {
+    void remove(unsigned idx) {
         assert(idx < size--);
 
-        for (int i = idx; i < size; i++)
+        for (unsigned i = idx; i < size; i++)
             content[i] = content[i + 1];
     }
 
     void resize(int idx) {
-        bool empty = (alloc == 0);
-        unsigned newAlloc = (empty ? 1 : alloc);
-        while (newAlloc <= idx) 
-            newAlloc *= 2;
+        while (alloc <= idx) 
+            alloc *= 2;
         
-        T* newContent = new T[newAlloc];
+        T* newContent = new T[alloc];
         for (unsigned i = 0; i < size; ++i)         // copy stored data
             newContent[i] = content[i];
-        for (unsigned i = size; i < newAlloc; ++i)  // fill extra space with nills
+        for (unsigned i = size; i < alloc; ++i)     // fill extra space with nills
             newContent[i] = T(0);
         
-        if (!empty)
-            delete[] content;
+        delete[] content;
         content = newContent;
 
-        alloc = newAlloc;
         size = idx + 1;
     }
 };
@@ -118,6 +102,11 @@ int main() {
     x.print("x");
 
     // retrieve by idx
-    x[3] = 17;
+    v[5] = 88;
+    w[2] = 66;
+    x[3] = 77; 
+
+    v.print("v");
+    w.print("w");
     x.print("x");
 }
