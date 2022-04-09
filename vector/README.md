@@ -41,9 +41,9 @@ v.print()               // 6 6 0 0 0 0
 ## Сложность операций
 | Функция                | Время              |
 | ---------------------- | ------------------ |
-| `Vector()`             | $O(1)$             |
-| `Vector(length, fill)` | $O(\text{length})$ |
-| `push_back(value)`     | $O(n)$             |
-| `remove(index)`        | $O(n)$             |
+| `Vector()`             | O(1)              |
+| `Vector(length, fill)` | O(\text{length}) |
+| `push_back(value)`     | O(n)             |
+| `remove(index)`        | O(n)             |
 
 В худшем случае метод `push_back()` работает за $O(n)$. В среднем за $(???)$.
