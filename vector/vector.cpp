@@ -57,6 +57,7 @@ public:
             content[i] = content[i + 1];
     }
 
+private:
     void resize(int idx) {
         while (alloc <= idx) 
             alloc *= 2;
