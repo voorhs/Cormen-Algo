@@ -15,6 +15,10 @@ public:
         delete[] content;
     }
 
+    bool isEmpty() {
+        return (size == 0);
+    }
+
     void push(T value) {
         if (++size > alloc)
         {    
@@ -47,14 +51,5 @@ public:
 int main() {
     Stack<int> s;
     s.push(12);
-    std::cout << s.top() << std::endl;
-    s.push(122);
-    std::cout << s.top() << std::endl;
-    s.push(1233);
-    std::cout << s.top() << std::endl;
-
-    std::cout << s.pop() << std::endl;
-    std::cout << s.pop() << std::endl;
-    std::cout << s.pop() << std::endl;
-    std::cout << s.pop() << std::endl;
+    std::cout << s.isEmpty() << ' ' << s.pop() << ' ' << s.isEmpty();   // False 12 True
 }
