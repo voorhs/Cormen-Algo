@@ -44,6 +44,33 @@ public:
         head->next = newNode; 
     }
 
+    T pop_back() {
+        size--;
+        
+        Node<T>* node = head->next;
+        for ( ; node->next != tail; node = node->next) {}
+
+        T result = node->next->value;
+        
+        delete node->next;
+        tail = node;
+        tail->next = nullptr;
+
+        return result;
+    }
+
+    T pop_front() {
+        size--;
+        
+        Node<T>* tmp = head->next;
+        head->next = tmp->next;
+        
+        T result = tmp->value;
+        delete tmp;
+
+        return result;
+    }
+
     void insert(unsigned idx, T val) {
         if (idx == 0) {
             push_front(val);
@@ -64,16 +91,17 @@ public:
         node->next->next = tmp;
     }
 
-    void insert(Node<T>*& node, T val) {    // insert after
-        if (node == tail) {
+    void insert(Node<T>** node, T val) {    // insert after
+        Node<T>* nde = *node;
+        if (nde == tail) {
             push_back(val);
             return;
         }
 
         size++;
-        Node<T>* tmp = node->next;
-        node->next = new Node<T>(val);
-        node->next->next = tmp;
+        Node<T>* tmp = nde->next;
+        nde->next = new Node<T>(val);
+        nde->next->next = tmp;
     }
 
     void print() const {
@@ -85,6 +113,7 @@ public:
     }
 
     Node<T>* operator[] (unsigned idx) {
+        assert(idx < size);
         Node<T>* node = head->next;
         for (unsigned i = 0; i < idx; i++)
             node = node->next;
@@ -122,6 +151,12 @@ int main() {
 
     // inserting by node;
     Node<int>* Q = L[2];
-    L.insert(Q, -99);
+    L.insert(&Q, -99);
+    L.print();
+
+    // remove
+    L.pop_back();
+    L.print();
+    L.pop_front();
     L.print();
 }
