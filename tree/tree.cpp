@@ -136,14 +136,16 @@ public:
                     succ->parent->left = succ->right;
                 else
                     succ->parent->right = succ->right;
-            
-            TreeNode* node = node;
+            else
+                root = succ->right;                    
             
             if (node->parent)
                 if (node == node->parent->left)
                     node->parent->left = succ;
                 else
                     node->parent->right = succ;
+            else
+                root = succ;
             
             node->left->parent = succ;
             node->right->parent = succ;
@@ -195,7 +197,7 @@ int main()
     T.insert(11);
     T.insert(15);
     T.print();
-    TreeNode* node = T.find(4);
+    TreeNode* node = T.find(7);
     T.remove(node);
     cout << endl;
     T.print();
